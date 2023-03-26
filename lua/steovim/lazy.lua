@@ -11,11 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-plugins = {
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
-		-- or                              , branch = '0.1.1',
-		dependencies = { 'nvim-lua/plenary.nvim' }
-}
-
-require("lazy").setup(plugins, opts)
+require("lazy").setup("steovim.plugins")
