@@ -11,7 +11,7 @@ vim.opt.smarttab = true
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:2,min:40,sbr"
---vim.opt.expandtab = true
+vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
