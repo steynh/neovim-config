@@ -69,7 +69,7 @@ local function config()
 
 	local function show_cheatsheet()
 		run_command_and_show_output(
-		'rg --hidden --trim "vim.keymap" ~/Documents/Workspace/dotfiles/nvim/ | rg --replace "\\$1: \\$2" "^/.*dotfiles/nvim/.config/nvim/lua/steovim/([^:]+):vim.keymap.set\\((.+)\\).*"',
+		'rg --hidden --trim --follow "vim.keymap" ~/.config/nvim | rg --replace "\\$1: \\$2" "^/.*/.config/nvim/lua/steovim/([^:]+):vim.keymap.set\\((.+)\\).*"',
 		'Keymap Cheatsheet')
 	end
 
