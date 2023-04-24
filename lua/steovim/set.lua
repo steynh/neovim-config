@@ -22,6 +22,8 @@ vim.opt.smartindent = true
 --vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 --vim.opt.undofile = true
 
+vim.opt.autoread = true
+
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
