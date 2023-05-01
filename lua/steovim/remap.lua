@@ -9,7 +9,8 @@ vim.keymap.set("n", "<leader>grf", ":s/^\\w\\+ /fixup /<CR>")
 vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>gs", ":s/^pick/squash/<CR>")
 vim.keymap.set("n", "<leader>tlf", ":%s/^.* 1: //<CR>")
-vim.keymap.set("n", "<leader>vrm", ":so ~/.config/nvim/lua/steovim/remap.lua")
+vim.keymap.set("n", "<leader>vrm", ":so ~/.config/nvim/lua/steovim/remap.lua<CR>", {desc="Re-source remap.lua"})
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>")
 
 vim.keymap.set("n", "L", "$")
 vim.keymap.set("n", "H", "^")
@@ -27,16 +28,9 @@ local function set_lsp_keymaps(bufnr)
     vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set("n", "<leader>vs", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
-    vim.keymap.set("n", "<C-p>ws", function() vim.lsp.buf.workspace_symbol('') end, opts)
-    vim.keymap.set("n", "<C-p>d", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "<C-p>ca", function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set("n", "<C-p>rr", function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set("n", "<C-p>rn", function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set("i", "<C-p>p", function() vim.lsp.buf.signature_help() end, opts)
-    vim.keymap.set("n", "<C-p>p", function() vim.lsp.buf.signature_help() end, opts)
+    vim.keymap.set({"n", "i"}, "<C-p>", function() vim.lsp.buf.signature_help() end, opts)
 end
 
 return {
