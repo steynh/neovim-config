@@ -18,13 +18,22 @@ local function config()
 				additional_args = function(opts)
 					return { "--hidden" }
 				end
-			}
+			},
+            lsp_incoming_calls = {
+                theme = "cursor",
+            },
+            lsp_references = {
+                theme = "cursor",
+            },
 		}
 	}
 	local builtin = require('telescope.builtin')
 	vim.keymap.set('n', '<leader>o', builtin.find_files, {})
 	vim.keymap.set('n', '<leader>f/', builtin.current_buffer_fuzzy_find, {})
 	vim.keymap.set('n', '<leader>ff', function() builtin.lsp_document_symbols({symbols={"function", "method"}}) end, {})
+	vim.keymap.set('n', '<leader>fi', builtin.lsp_incoming_calls, {})
+	vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
+
 	vim.keymap.set('n', '<leader>fp', builtin.live_grep, {})
 	vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 	vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})

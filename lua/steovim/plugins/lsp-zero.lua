@@ -32,6 +32,7 @@ return {
             'clangd',
             'rust_analyzer',
             'jdtls',
+            'jsonls',
         })
 
         lsp.skip_server_setup({ 'jdtls' })
