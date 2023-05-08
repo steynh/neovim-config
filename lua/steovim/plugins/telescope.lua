@@ -33,6 +33,8 @@ local function config()
 	vim.keymap.set('n', '<leader>ff', function() builtin.lsp_document_symbols({symbols={"function", "method"}}) end, {})
 	vim.keymap.set('n', '<leader>fi', builtin.lsp_incoming_calls, {})
 	vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
+	vim.keymap.set('n', '<leader>gf', function() builtin.find_files({search_file = vim.fn.expand("<cfile>")}) end, {})
+	vim.keymap.set('n', '<leader>fw', function() builtin.grep_string({search = vim.fn.expand("<cword>")}) end, {})
 
 	vim.keymap.set('n', '<leader>fp', builtin.live_grep, {})
 	vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
