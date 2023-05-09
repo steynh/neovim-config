@@ -43,6 +43,18 @@ local function set_lsp_keymaps(bufnr)
     vim.keymap.set({"n", "i"}, "<C-p>", function() vim.lsp.buf.signature_help() end, opts)
 end
 
+-- better highlight and search
+vim.keymap.set("n", "*", "*``", {})
+vim.on_key(function(key)
+  if vim.fn.mode() == "n" then
+      local char = vim.fn.keytrans(key)
+      local current_hlsearch = vim.opt.hlsearch:get()
+      local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, char) or current_hlsearch == false and char == '`'
+      if current_hlsearch ~= new_hlsearch then vim.opt.hlsearch = new_hlsearch end
+  end
+end, vim.api.nvim_create_namespace "auto_hlsearch")
+
+
 return {
     set_lsp_keymaps = set_lsp_keymaps
 }
