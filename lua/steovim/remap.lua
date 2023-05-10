@@ -49,7 +49,7 @@ vim.on_key(function(key)
   if vim.fn.mode() == "n" then
       local char = vim.fn.keytrans(key)
       local current_hlsearch = vim.opt.hlsearch:get()
-      local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, char) or current_hlsearch == false and char == '`'
+      local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, char) or current_hlsearch and char == '`'
       if current_hlsearch ~= new_hlsearch then vim.opt.hlsearch = new_hlsearch end
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")
