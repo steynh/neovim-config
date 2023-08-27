@@ -54,7 +54,32 @@ vim.on_key(function(key)
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")
 
+-- Example: 
+-- {
+--     prefix = '<leader>',
+--     { key = 'f', what = 'Find (Telescope)' },
+--     { key = 'fp', what = 'Find in Project files', how = ':Telescope live_grep' },
+-- }
+local function my_map_format_to_whichkey(map)
+    map = map or {}
+    local result = {}
+
+    for _, v in ipairs(map) do
+        if (v.how) then
+            result[v.key] = { v.how, v.what, v.opts }
+        else
+            result[v.key] = { name = v.what }
+        end
+    end
+
+    if (map.prefix) then
+        result = { [map.prefix] = result }
+    end
+    return result
+end
+
 
 return {
     set_lsp_keymaps = set_lsp_keymaps
+    my_map_format_to_whichkey = my_map_format_to_whichkey,
 }

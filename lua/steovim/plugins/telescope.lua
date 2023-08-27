@@ -1,5 +1,9 @@
+local home = os.getenv('HOME')
+
 local function config()
-	require('telescope').setup {
+    local telescope = require('telescope')
+    telescope.load_extension('harpoon')
+	telescope.setup {
 		defaults = {
 			path_display = { "truncate" },
 			file_ignore_patterns = {
@@ -27,72 +31,39 @@ local function config()
             },
 		}
 	}
+
 	local builtin = require('telescope.builtin')
-	vim.keymap.set('n', '<leader>o', builtin.find_files, {})
-	vim.keymap.set('n', '<leader>f/', builtin.current_buffer_fuzzy_find, {})
-	vim.keymap.set('n', '<leader>ff', function() builtin.lsp_document_symbols({symbols={"function", "method"}}) end, {})
-	vim.keymap.set('n', '<leader>fi', builtin.lsp_incoming_calls, {})
-	vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
-	vim.keymap.set('n', '<leader>gf', function() builtin.find_files({search_file = vim.fn.expand("<cfile>")}) end, {})
-	vim.keymap.set('n', '<leader>fw', function() builtin.grep_string({search = vim.fn.expand("<cword>")}) end, {})
-
-	vim.keymap.set('n', '<leader>fp', builtin.live_grep, {})
-	vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-	vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
-
-	-- vim.keymap.set('n', '<leader>o', function()
-	-- 	if pcall(builtin.git_files, { show_untracked = true }) then
-	-- 	else
-	-- 		builtin.find_files()
-	-- 	end
-	-- end
-	--, {})
-
-	local function run_command_and_show_output(cmd, title)
-		local output = vim.fn.systemlist(cmd)
-
-		if vim.v.shell_error ~= 0 then
-			vim.api.nvim_err_writeln('Error running command: ' .. cmd)
-			return
-		end
-
-		local finders = require('telescope.finders')
-		local sorters = require('telescope.sorters')
-		local actions = require('telescope.actions')
-		local action_state = require('telescope.actions.state')
-		local pickers = require('telescope.pickers')
-
-		pickers.new({}, {
-			prompt_title = title,
-			finder = finders.new_table {
-				results = output,
-			},
-			sorter = sorters.get_generic_fuzzy_sorter(),
-			attach_mappings = function(_, map)
-				map('i', '<CR>', function(prompt_bufnr)
-					local selection = action_state.get_selected_entry(prompt_bufnr)
-					print(selection.value)
-					actions.close(prompt_bufnr)
-				end)
-				return true
-			end,
-		}):find()
-	end
-
-	local function show_cheatsheet()
-		run_command_and_show_output(
-		'rg --hidden --trim --follow "vim.keymap" ~/.config/nvim | rg --replace "\\$1: \\$2" "^/.*/.config/nvim/lua/steovim/([^:]+):vim.keymap.set\\((.+)\\).*"',
-		'Keymap Cheatsheet')
-	end
-
-	vim.keymap.set("n", "<leader>cs", show_cheatsheet)
-	vim.api.nvim_create_user_command("Cmd", show_cheatsheet, {})
+    require('which-key').register(require('steovim.remap').my_map_format_to_whichkey({
+        prefix = '<leader>',
+        { key='f',   what='Find (Telescope)'                                                                                                                                                    },
+        { key='fw',  what='Find Word under cursor'                                                                                                                                              },
+        { key='o',   what='Open file',                                     how=':Telescope find_files<CR>'                                                                                      },
+        { key='f/',  what='Find in current file',                          how=':Telescope current_buffer_fuzzy_find<CR>'                                                                       },
+        { key='fi',  what='Find Incoming calls',                           how=':Telescope lsp_incoming_calls<CR>'                                                                              },
+        { key='fr',  what='Find References',                               how=':Telescope lsp_references<CR>'                                                                                  },
+        { key='fp',  what='Find in Project',                               how=':Telescope live_grep<CR>'                                                                                       },
+        { key='fb',  what='Find Buffers',                                  how=':Telescope buffers<CR>'                                                                                         },
+        { key='fh',  what='Find Help tags',                                how=':Telescope help_tags<CR>'                                                                                       },
+        { key='fn',  what='Find Harpoon marks',                            how=':Telescope harpoon marks<CR>'                                                                                   },
+        { key='fk',  what='Find Keymaps',                                  how=':Telescope keymaps<CR>'                                                                                         },
+        { key='ff',  what='Find Functions',                                how=function() builtin.lsp_document_symbols({symbols={"function", "method"}}) end                                    },
+        { key='fg',  what='Find Git files',                                how=function() pcall(builtin.git_files, { show_untracked = true }) end , {}                                          },
+        { key='fww', what='Find Word in project',                          how=function() builtin.grep_string({search = vim.fn.expand("<cword>"), follow=true, hidden=true}) end                },
+        { key='fwp', what='Find Word in Project',                          how=function() builtin.grep_string({search = vim.fn.expand("<cword>"), follow=true, hidden=true}) end                },
+        { key='fwo', what='Find Word Open (find files with word in name)', how=function() builtin.find_files({search_file = vim.fn.expand("<cword>")}) end                                      },
+        { key='fwd', what='Find Word in Dev dir',                          how=function() builtin.find_files({search_file = vim.fn.expand("<cword>"), cwd = home .. "/g/dev"}) end              },
+        { key='fwf', what='Find Word in global Functions',                 how=function() builtin.lsp_workspace_symbols({query = vim.fn.expand("<cword>"), symbols={"function", "method"}}) end },
+        { key='gf',  what='Go Forward',                                    how=function() builtin.find_files({search_file = vim.fn.expand("<cfile>")}) end                                      },
+    }))
 end
 
 return {
-	-- the colorscheme should be available when starting Neovim
 	'nvim-telescope/telescope.nvim',
-	dependencies = { 'nvim-lua/plenary.nvim' },
+	dependencies = {
+        'nvim-lua/plenary.nvim',
+        'ThePrimeagen/harpoon',
+        'folke/which-key.nvim',
+    },
 	config = config,
+    keys = { '<leader>o', '<leader>f', '<leader>gf' }
 }
