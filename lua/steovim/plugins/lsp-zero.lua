@@ -48,16 +48,6 @@ return {
             }
         })
 
-        -- todo: this doesn't work
-        lsp.configure('jdtls', {
-            settings = {
-                java = {
-                    signatureHelp = { enabled = true },
-                    contentProvider = { preferred = 'fernflower' },
-                }
-            }
-        })
-
         local cmp = require('cmp')
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
         local cmp_mappings = lsp.defaults.cmp_mappings({
