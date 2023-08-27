@@ -1,7 +1,7 @@
 return {
 	'ThePrimeagen/harpoon',
 	dependencies = {
-		'nvim-lua/plenary.nvim'
+		'nvim-lua/plenary.nvim',
 	},
 	config = function()
 		vim.keymap.set("n", "<leader>m", require("harpoon.mark").add_file, {desc='Harpoon Mark'})
