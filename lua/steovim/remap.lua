@@ -1,58 +1,59 @@
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-vim.keymap.set("n", "<leader>h", "<C-w>h", {desc="Go To Left Pane"})
-vim.keymap.set("n", "<leader>j", "<C-w>j", {desc="Go To Down Pane"})
-vim.keymap.set("n", "<leader>k", "<C-w>k", {desc="Go To Up Pane"})
-vim.keymap.set("n", "<leader>l", "<C-w>l", {desc="Go To Right Pane"})
-vim.keymap.set("n", "<leader>grs", ":s/^\\w\\+ /squash /<CR>")
-vim.keymap.set("n", "<leader>grf", ":s/^\\w\\+ /fixup /<CR>")
--- vim.keymap.set("n", ";", ":")
-vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
-vim.keymap.set("n", "<leader>tlf", ":%s/^.* 1: //<CR>")
-vim.keymap.set("n", "<leader>vrm", ":so ~/.config/nvim/lua/steovim/remap.lua<CR>", {desc="Vim Re-Map (source remap.lua)"})
-vim.keymap.set("n", "<leader>tc", ":tabclose<CR>")
+local leader_keymap = {
+    prefix = '<leader>',
 
-vim.keymap.set("n", "L", "$")
-vim.keymap.set("n", "H", "^")
+    {                        key= 'pv',    what= 'Project View',                    how= function() vim.cmd.Ex() end                    },
+    {                        key= 'h',     what= 'Go To Left Pane',                 how= '<C-w>h'                                       },
+    {                        key= 'j',     what= 'Go To Down Pane',                 how= '<C-w>j'                                       },
+    {                        key= 'k',     what= 'Go To Up Pane',                   how= '<C-w>k'                                       },
+    {                        key= 'l',     what= 'Go To Right Pane',                how= '<C-w>l'                                       },
+    {                        key= 'vrm',   what= 'Vim Re-Map (source remap.lua)',   how= ':so ~/.config/nvim/lua/steovim/remap.lua<CR>' },
+    {                        key= 'tc',    what= 'Tab Close',                       how= ':tabclose<CR>'                                },
+    {                        key= 'p',     what= 'Paste without overriding buffer', how= [["_dP]]                                       },
+    { mode= {'n', 'v'},      key= 'y',     what= 'Yank to clipboard',               how= '"+y'                                          },
+    {                        key= 'yp',    what= 'Yank file Path to clipboard',     how= ':!echo -n "%" | pbcopy<CR>'                   },
+    {                        key= 'yg',    what= 'Yank blob link to clipboard',     how= ':!get-blob-link "%:p" | pbcopy<CR>'           },
+
+    {                        key= 's',     what= 'Set'                                                                                  },
+    {                        key= 'slr',   what= 'Vim Line number Relative',        how= function() vim.opt.relativenumber = true end   },
+    {                        key= 'sla',   what= 'Vim Line number Absolute',        how= function() vim.opt.relativenumber = false end  },
+    {                        key= 'sfj',   what= 'Set Filetype JSON',               how= ':set filetype=json<CR>'                       },
+}
+local no_prefix_keymap = {
+
+    { mode= {'n', 'v', 'i'}, key= '<C-s>', what= '',                                how= '<Esc>:w<CR>'                                  },
+    { mode= 'n',             key= 'L',     what= '',                                how= '$'                                            },
+    { mode= 'n',             key= 'H',     what= '',                                how= '^'                                            },
+
+}
+
+vim.api.nvim_create_user_command("AlignKeymaps", function ()
+    vim.cmd("'<,'>EasyAlign /mode=/")
+    vim.cmd("'<,'>EasyAlign /key=/")
+    vim.cmd("'<,'>EasyAlign /what=/")
+    vim.cmd("'<,'>EasyAlign /how=/")
+    vim.cmd("'<,'>EasyAlign /},$/")
+end, {range=true})
 
 
-vim.keymap.set("n", "<leader>vlr", function() vim.opt.relativenumber = true end, {desc="Vim Line number Relative"})
-vim.keymap.set("n", "<leader>vla", function() vim.opt.relativenumber = false end, {desc="Vim Line number Absolute"})
-
-local function set_lsp_keymaps(bufnr)
-    local function opts(extra)
-        local result = { buffer = bufnr, remap = false }
-        for k, v in pairs(extra) do
-            result[k] = v
-        end
-        return result
-    end
-
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts({desc="Goto Definition"}))
-    vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts({desc="Goto Implementation"}))
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts({}))
-    vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol('') end, opts({desc="Vim Workspace Symbol"}))
-    vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts({desc="Vim Diagnostic"}))
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts({}))
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev({}) end, opts({}))
-    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts({desc="Vim Code Action"}))
-    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts({desc="Vim RefeRences"}))
-    vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts({desc="Vim ReName"}))
-    vim.keymap.set("n", "<leader>vfm", function() vim.lsp.buf.format() end, opts({desc="Vim ForMat"}))
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts({}))
-
-    vim.keymap.set({"n", "i"}, "<C-p>", function() vim.lsp.buf.signature_help() end, opts)
+local function toggle_lsp_highlight()
+    vim.lsp.buf.clear_references()
+    vim.cmd([[
+        if !exists('#lsp_highlight#CursorHold')
+            augroup lsp_highlight
+                autocmd!
+                autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+        else
+            augroup lsp_highlight
+                autocmd!
+            augroup END
+        endif
+    ]])
 end
 
--- better highlight and search
-vim.keymap.set("n", "*", "*``", {})
-vim.on_key(function(key)
-  if vim.fn.mode() == "n" then
-      local char = vim.fn.keytrans(key)
-      local current_hlsearch = vim.opt.hlsearch:get()
-      local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, char) or current_hlsearch and char == '`'
-      if current_hlsearch ~= new_hlsearch then vim.opt.hlsearch = new_hlsearch end
-  end
-end, vim.api.nvim_create_namespace "auto_hlsearch")
+local wk_groups = {}
 
 -- Example: 
 -- {
@@ -60,15 +61,22 @@ end, vim.api.nvim_create_namespace "auto_hlsearch")
 --     { key = 'f', what = 'Find (Telescope)' },
 --     { key = 'fp', what = 'Find in Project files', how = ':Telescope live_grep' },
 -- }
-local function my_map_format_to_whichkey(map)
+local function set_keymaps(map)
     map = map or {}
-    local result = {}
+    local prefix = map.prefix or ''
 
     for _, v in ipairs(map) do
+        assert(v.key, 'missing `key` in keymap entry')
+        assert(v.what, 'missing `what` in keymap entry')
+        local key = prefix .. v.key
         if (v.how) then
-            result[v.key] = { v.how, v.what, v.opts }
+            vim.keymap.set(v.mode or "n", key, v.how, { desc = v.what, noremap = v.noremap or true, buffer = v.buffer })
         else
-            result[v.key] = { name = v.what }
+            -- this is not a complete keymap, but a group description for which-key.nvim
+            table.insert(wk_groups, {
+                map = { [key] = { name = v.what } },
+                opts = { buffer = map.buffer, mode = v.mode }
+            })
         end
     end
 
@@ -78,8 +86,38 @@ local function my_map_format_to_whichkey(map)
     return result
 end
 
+local function set_lsp_keymaps(bufnr)
+    local non_prefix_keymaps = {
+        buffer=bufnr,
+        {                   key= "gd",    what= 'desc="Goto Definition"',     how= function()    vim.lsp.buf.definition()            end },
+        {                   key= "gi",    what= 'desc="Goto Implementation"', how= function()    vim.lsp.buf.implementation()        end },
+        {                   key= "K",     what= '',                           how= function()    vim.lsp.buf.hover()                 end },
+        {                   key= "]d",    what= '',                           how= function()    vim.diagnostic.goto_next()          end },
+        {                   key= "[d",    what= '',                           how= function()    vim.diagnostic.goto_prev({})        end },
+        { mode= "i",        key= "<C-h>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
+        { mode= {"n", "i"}, key= "<C-p>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
+    }
 
+    local leader_keymaps = {
+        buffer=bufnr,
+        prefix='<leader>',
+        {                   key= "vws",   what= 'Vim Workspace Symbol',       how= function()    vim.lsp.buf.workspace_symbol('')    end },
+        {                   key= "vd",    what= 'Vim Diagnostic',             how= function()    vim.diagnostic.open_float()         end },
+        {                   key= "vca",   what= 'Vim Code Action',            how= function()    vim.lsp.buf.code_action()           end },
+        {                   key= "vrr",   what= 'Vim RefeRences',             how= function()    vim.lsp.buf.references()            end },
+        {                   key= "vrn",   what= 'Vim ReName',                 how= function()    vim.lsp.buf.rename()                end },
+        {                   key= "vfm",   what= 'Vim ForMat',                 how= function()    vim.lsp.buf.format()                end },
+        {                   key= "vhl",   what= 'Vim HighLight',              how= function()    toggle_lsp_highlight()              end },
+    }
+
+    set_keymaps(non_prefix_keymaps)
+    set_keymaps(leader_keymaps)
+end
+
+set_keymaps(leader_keymap)
+set_keymaps(no_prefix_keymap)
 return {
-    set_lsp_keymaps = set_lsp_keymaps
-    my_map_format_to_whichkey = my_map_format_to_whichkey,
+    set_lsp_keymaps = set_lsp_keymaps,
+    wk_groups = wk_groups,
+    set_keymaps=set_keymaps,
 }

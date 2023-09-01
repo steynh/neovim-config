@@ -33,7 +33,7 @@ local function config()
 	}
 
 	local builtin = require('telescope.builtin')
-    require('which-key').register(require('steovim.remap').my_map_format_to_whichkey({
+    require('steovim.remap').set_keymaps({
         prefix = '<leader>',
         { key='f',   what='Find (Telescope)'                                                                                                                                                    },
         { key='fw',  what='Find Word under cursor'                                                                                                                                              },
@@ -54,7 +54,7 @@ local function config()
         { key='fwd', what='Find Word in Dev dir',                          how=function() builtin.find_files({search_file = vim.fn.expand("<cword>"), cwd = home .. "/g/dev"}) end              },
         { key='fwf', what='Find Word in global Functions',                 how=function() builtin.lsp_workspace_symbols({query = vim.fn.expand("<cword>"), symbols={"function", "method"}}) end },
         { key='gf',  what='Go Forward',                                    how=function() builtin.find_files({search_file = vim.fn.expand("<cfile>")}) end                                      },
-    }))
+    })
 end
 
 return {
