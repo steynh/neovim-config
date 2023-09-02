@@ -1,3 +1,5 @@
+local fn = require('steovim.some_functionality')
+
 local leader_keymap = {
     prefix = '<leader>',
 
@@ -45,36 +47,9 @@ local lsp_keymaps = {
         {                   key= "vrr",   what= 'Vim RefeRences',             how= function()    vim.lsp.buf.references()            end },
         {                   key= "vrn",   what= 'Vim ReName',                 how= function()    vim.lsp.buf.rename()                end },
         {                   key= "vfm",   what= 'Vim ForMat',                 how= function()    vim.lsp.buf.format()                end },
-        {                   key= "vhl",   what= 'Vim HighLight',              how= function()    toggle_lsp_highlight()              end },
+        {                   key= "vhl",   what= 'Vim HighLight',              how= function()    fn.toggle_lsp_highlight()           end },
     }
 }
-
-vim.api.nvim_create_user_command("AlignKeymaps", function ()
-    vim.cmd("'<,'>EasyAlign /mode=/")
-    vim.cmd("'<,'>EasyAlign /key=/")
-    vim.cmd("'<,'>EasyAlign /what=/")
-    vim.cmd("'<,'>EasyAlign /how=/")
-    vim.cmd("'<,'>EasyAlign /},$/")
-end, {range=true})
-
-
-local function toggle_lsp_highlight()
-    vim.lsp.buf.clear_references()
-    vim.cmd([[
-        if !exists('#lsp_highlight#CursorHold')
-            augroup lsp_highlight
-                autocmd!
-                autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-        else
-            augroup lsp_highlight
-                autocmd!
-            augroup END
-        endif
-    ]])
-end
 
 local config_helpers = require('steovim.config_helpers')
 local function set_lsp_keymaps(bufnr)
