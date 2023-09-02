@@ -1,4 +1,4 @@
-local remap = require('steovim.remap')
+local keymaps = require('steovim.keymaps')
 
 return {
     'VonHeikemen/lsp-zero.nvim',
@@ -75,7 +75,7 @@ return {
         })
 
         lsp.on_attach(function(client, bufnr)
-            remap.set_lsp_keymaps(bufnr)
+            keymaps.set_lsp_keymaps(bufnr)
         end)
 
         lsp.setup()

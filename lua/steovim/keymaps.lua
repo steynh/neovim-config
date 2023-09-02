@@ -8,7 +8,7 @@ local leader_keymap = {
     {                   key= 'j',   what= 'Go To Down Pane',                        how= '<C-w>j'                                              },
     {                   key= 'k',   what= 'Go To Up Pane',                          how= '<C-w>k'                                              },
     {                   key= 'l',   what= 'Go To Right Pane',                       how= '<C-w>l'                                              },
-    {                   key= 'vrm', what= 'Vim Re-Map (source remap.lua)',          how= ':so ~/.config/nvim/lua/steovim/remap.lua<CR>'        },
+    {                   key= 'vrm', what= 'Vim Re-Map (source keymaps.lua)',          how= ':so ~/.config/nvim/lua/steovim/keymaps.lua<CR>'        },
     {                   key= 'tc',  what= 'Tab Close',                              how= ':tabclose<CR>'                                       },
     {                   key= 'p',   what= 'Paste without overriding buffer',        how= [["_dP]]                                              },
     { mode= {'n', 'v'}, key= 'y',   what= 'Yank to clipboard',                      how= '"+y'                                                 },

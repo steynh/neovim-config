@@ -61,7 +61,7 @@ local config = {
     cmd = cmd_java,
     root_dir=root_dir,
     on_attach=function (_, bufnr)
-        require('steovim.remap').set_lsp_keymaps(bufnr)
+        require('steovim.keymaps').set_lsp_keymaps(bufnr)
     end,
     settings = {
         java = {

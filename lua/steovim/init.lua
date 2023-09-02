@@ -1,7 +1,6 @@
 require("steovim.lazy")
-require("steovim.remap")
+require("steovim.keymaps")
 require("steovim.set")
-require("steovim.config_helpers")
 
 vim.filetype.add({
     pattern = {
