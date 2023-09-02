@@ -61,16 +61,14 @@ local lsp_keymaps = {
 }
 
 local config_helpers = require('steovim.config_helpers')
-local function set_lsp_keymaps(bufnr)
+config_helpers.set_keymaps(leader_keymap)
+config_helpers.set_keymaps(no_prefix_keymap)
+
+local M = {}
+function M.set_lsp_keymaps(bufnr)
     for _, keymap in ipairs(lsp_keymaps) do
         config_helpers.set_keymaps(keymap, { buffer=bufnr })
     end
 end
 
-
-config_helpers.set_keymaps(leader_keymap)
-config_helpers.set_keymaps(no_prefix_keymap)
-
-return {
-    set_lsp_keymaps = set_lsp_keymaps,
-}
+return M
