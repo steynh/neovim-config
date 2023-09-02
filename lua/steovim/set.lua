@@ -37,3 +37,10 @@ vim.opt.updatetime = 50
 
 -- vim.opt.colorcolumn = "80"
 
+-- don't continue comments when typing `o` or `O` in normal mode
+vim.api.nvim_create_autocmd({'FileType'}, {
+    group=vim.api.nvim_create_augroup('formatoptions', {clear=true}),
+    pattern='*',
+    callback=function() vim.opt.formatoptions:remove('o') end
+})
+
