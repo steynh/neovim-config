@@ -26,6 +26,29 @@ local no_prefix_keymap = {
 
 }
 
+local lsp_keymaps = {
+    {
+        {                   key= "gd",    what= 'desc="Goto Definition"',     how= function()    vim.lsp.buf.definition()            end },
+        {                   key= "gi",    what= 'desc="Goto Implementation"', how= function()    vim.lsp.buf.implementation()        end },
+        {                   key= "K",     what= '',                           how= function()    vim.lsp.buf.hover()                 end },
+        {                   key= "]d",    what= '',                           how= function()    vim.diagnostic.goto_next()          end },
+        {                   key= "[d",    what= '',                           how= function()    vim.diagnostic.goto_prev({})        end },
+        { mode= "i",        key= "<C-h>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
+        { mode= {"n", "i"}, key= "<C-p>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
+    },
+    {
+        prefix='<leader>',
+        {                   key= "gd",    what= "Don't Goto Definition",      how= function()    print_definition_positions()        end },
+        {                   key= "vws",   what= 'Vim Workspace Symbol',       how= function()    vim.lsp.buf.workspace_symbol('')    end },
+        {                   key= "vd",    what= 'Vim Diagnostic',             how= function()    vim.diagnostic.open_float()         end },
+        {                   key= "vca",   what= 'Vim Code Action',            how= function()    vim.lsp.buf.code_action()           end },
+        {                   key= "vrr",   what= 'Vim RefeRences',             how= function()    vim.lsp.buf.references()            end },
+        {                   key= "vrn",   what= 'Vim ReName',                 how= function()    vim.lsp.buf.rename()                end },
+        {                   key= "vfm",   what= 'Vim ForMat',                 how= function()    vim.lsp.buf.format()                end },
+        {                   key= "vhl",   what= 'Vim HighLight',              how= function()    toggle_lsp_highlight()              end },
+    }
+}
+
 vim.api.nvim_create_user_command("AlignKeymaps", function ()
     vim.cmd("'<,'>EasyAlign /mode=/")
     vim.cmd("'<,'>EasyAlign /key=/")
@@ -53,71 +76,17 @@ local function toggle_lsp_highlight()
     ]])
 end
 
-local wk_groups = {}
-
--- Example: 
--- {
---     prefix = '<leader>',
---     { key = 'f', what = 'Find (Telescope)' },
---     { key = 'fp', what = 'Find in Project files', how = ':Telescope live_grep' },
--- }
-local function set_keymaps(map)
-    map = map or {}
-    local prefix = map.prefix or ''
-
-    for _, v in ipairs(map) do
-        assert(v.key, 'missing `key` in keymap entry')
-        assert(v.what, 'missing `what` in keymap entry')
-        local key = prefix .. v.key
-        if (v.how) then
-            vim.keymap.set(v.mode or "n", key, v.how, { desc = v.what, noremap = v.noremap or true, buffer = v.buffer })
-        else
-            -- this is not a complete keymap, but a group description for which-key.nvim
-            table.insert(wk_groups, {
-                map = { [key] = { name = v.what } },
-                opts = { buffer = map.buffer, mode = v.mode }
-            })
-        end
-    end
-
-    if (map.prefix) then
-        result = { [map.prefix] = result }
-    end
-    return result
-end
-
+local config_helpers = require('steovim.config_helpers')
 local function set_lsp_keymaps(bufnr)
-    local non_prefix_keymaps = {
-        buffer=bufnr,
-        {                   key= "gd",    what= 'desc="Goto Definition"',     how= function()    vim.lsp.buf.definition()            end },
-        {                   key= "gi",    what= 'desc="Goto Implementation"', how= function()    vim.lsp.buf.implementation()        end },
-        {                   key= "K",     what= '',                           how= function()    vim.lsp.buf.hover()                 end },
-        {                   key= "]d",    what= '',                           how= function()    vim.diagnostic.goto_next()          end },
-        {                   key= "[d",    what= '',                           how= function()    vim.diagnostic.goto_prev({})        end },
-        { mode= "i",        key= "<C-h>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
-        { mode= {"n", "i"}, key= "<C-p>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
-    }
-
-    local leader_keymaps = {
-        buffer=bufnr,
-        prefix='<leader>',
-        {                   key= "vws",   what= 'Vim Workspace Symbol',       how= function()    vim.lsp.buf.workspace_symbol('')    end },
-        {                   key= "vd",    what= 'Vim Diagnostic',             how= function()    vim.diagnostic.open_float()         end },
-        {                   key= "vca",   what= 'Vim Code Action',            how= function()    vim.lsp.buf.code_action()           end },
-        {                   key= "vrr",   what= 'Vim RefeRences',             how= function()    vim.lsp.buf.references()            end },
-        {                   key= "vrn",   what= 'Vim ReName',                 how= function()    vim.lsp.buf.rename()                end },
-        {                   key= "vfm",   what= 'Vim ForMat',                 how= function()    vim.lsp.buf.format()                end },
-        {                   key= "vhl",   what= 'Vim HighLight',              how= function()    toggle_lsp_highlight()              end },
-    }
-
-    set_keymaps(non_prefix_keymaps)
-    set_keymaps(leader_keymaps)
+    for _, keymap in ipairs(lsp_keymaps) do
+        config_helpers.set_keymaps(keymap, { buffer=bufnr })
+    end
 end
 
-set_keymaps(leader_keymap)
-set_keymaps(no_prefix_keymap)
+
+config_helpers.set_keymaps(leader_keymap)
+config_helpers.set_keymaps(no_prefix_keymap)
+
 return {
     set_lsp_keymaps = set_lsp_keymaps,
-    wk_groups = wk_groups,
-    set_keymaps=set_keymaps,
 }

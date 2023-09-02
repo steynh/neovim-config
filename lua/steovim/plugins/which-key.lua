@@ -11,8 +11,7 @@ return {
                 -- or leave it empty to use the default settings
                 -- refer to the configuration section below
             })
-            local remap = require('steovim.remap')
-            for _, v in ipairs(remap.wk_groups) do
+            for _, v in ipairs(require('steovim.config_helpers').which_key_groups) do
                 wk.register(v.map, v.opts)
             end
         end,

@@ -33,7 +33,7 @@ local function config()
 	}
 
 	local builtin = require('telescope.builtin')
-    require('steovim.remap').set_keymaps({
+    require('steovim.config_helpers').set_keymaps({
         prefix = '<leader>',
         { key='f',   what='Find (Telescope)'                                                                                                                                                    },
         { key='fw',  what='Find Word under cursor'                                                                                                                                              },
