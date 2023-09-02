@@ -37,4 +37,12 @@ vim.on_key(function(key)
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")
 
+function M.get_github_permalink_for_visual_block()
+    vim.cmd("norm y")
+    local first_line = vim.fn.getpos("'<")[2]
+    local last_line = vim.fn.getpos("'>")[2]
+    local path = vim.fn.expand('%:p')
+    print(vim.fn.system(string.format('code-notes "%s" blob-link %s %s | pbcopy', path, first_line, last_line)))
+end
+
 return M
