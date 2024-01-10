@@ -1,0 +1,9 @@
+return {
+    'rcarriga/nvim-notify',
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1010, -- make sure to load this before all the other start plugins
+    config = function()
+        vim.notify = require("notify")
+        vim.notify("Set up nvim-notify for notifications")
+    end
+}
