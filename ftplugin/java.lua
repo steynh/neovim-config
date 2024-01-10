@@ -31,6 +31,8 @@ local cmd_java = {
     '--add-modules=ALL-SYSTEM',
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+    '-javaagent:' .. home .. '/.local/share/nvim/mason/packages/jdtls/plugins/lombok.jar',
+    --'-Xbootclasspath/a:' .. home .. '/.local/share/nvim/mason/packages/jdtls/plugins/lombok.jar',
     '-jar', vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
     '-configuration', config_dir,
     '-data', workspace_folder,
@@ -71,7 +73,10 @@ local config = {
             import = {
                 gradle = {
                     enabled = true,
-                    offline = { enabled = true }
+                    offline = { enabled = true },
+                    wrapper = {
+                        enabled = true,
+                    }
                 }
             },
             configuration = {
@@ -84,6 +89,7 @@ local config = {
     extendedClientCapabilities = extendedClientCapabilities
 }
 
+print("Attaching jdtls")
 require('jdtls').start_or_attach(config)
 
 -- example: https://github.com/mfussenegger/dotfiles/blob/833d634251ebf3bf7e9899ed06ac710735d392da/vim/.config/nvim/ftplugin/java.lua#L1-L149

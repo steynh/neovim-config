@@ -2,7 +2,7 @@ local keymaps = require('steovim.keymaps')
 
 return {
     'VonHeikemen/lsp-zero.nvim',
-    branch = 'v1.x',
+    branch = 'v2.x',
     dependencies = {
         -- LSP Support
         { 'neovim/nvim-lspconfig' },
@@ -38,15 +38,23 @@ return {
         lsp.skip_server_setup({ 'jdtls' })
 
         -- Fix Undefined global 'vim'
-        lsp.configure('lua-language-server', {
-            settings = {
-                Lua = {
-                    diagnostics = {
-                        globals = { 'vim' }
-                    }
-                }
-            }
-        })
+        -- lsp.configure('lua-language-server', {
+        --     settings = {
+        --         Lua = {
+        --             diagnostics = {
+        --                 globals = { 'vim' }
+        --             }
+        --         }
+        --     }
+        -- })
+
+        -- lsp.configure('jsonls', {
+        --     settings = {
+        --         initializationOptions = {
+--      --                capabilities = lsp.defaults.
+        --         }
+        --     }
+        -- })
 
         local cmp = require('cmp')
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -57,8 +65,8 @@ return {
             ["<C-i>"] = cmp.mapping.complete(),
         })
 
-        cmp_mappings['<Tab>'] = nil
-        cmp_mappings['<S-Tab>'] = nil
+        -- cmp_mappings['<Tab>'] = nil
+        -- cmp_mappings['<S-Tab>'] = nil
 
         lsp.setup_nvim_cmp({
             mapping = cmp_mappings
@@ -77,6 +85,8 @@ return {
         lsp.on_attach(function(client, bufnr)
             keymaps.set_lsp_keymaps(bufnr)
         end)
+
+        require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
         lsp.setup()
 
