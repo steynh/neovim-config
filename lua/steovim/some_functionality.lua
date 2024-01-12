@@ -76,7 +76,9 @@ end, { range=true, nargs='*' })
 vim.api.nvim_set_keymap('v', '<leader>cn', ':CodeNotes render-template --with-ref-note --create obsidian', { desc='Copy Note snippet (code-notes)' })
 vim.api.nvim_set_keymap('v', '<leader>cs', ':CodeNotes render-template slack', { desc='Copy Slack snippet (code-notes)' })
 vim.api.nvim_set_keymap('v', '<leader>cp', ':CodeNotes permalink', { desc='Copy Permalink (code-notes)' })
+vim.api.nvim_set_keymap('n', '<leader>cp', ':CodeNotes permalink', { desc='Copy Permalink (code-notes)' })
 vim.api.nvim_set_keymap('n', '<leader>co', ':!open "obsidian://$(code-notes "%" ref-note-path --create --debug)"<CR>', { desc='Code-notes Open in obsidian' })
+vim.api.nvim_set_keymap('n', '<leader>cc', ':CodeNotes ref-note-path --create --debug<CR>', { desc='Code-notes Create ref-note' })
 
 vim.api.nvim_create_user_command("JavaMultiLine", function(opts)
     if (opts.range == 2) then
