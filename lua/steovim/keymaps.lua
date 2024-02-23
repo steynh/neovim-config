@@ -57,14 +57,14 @@ local lsp_keymaps = {
     },
     {
         prefix='<leader>',
-        {                   key= "gd",    what= "Don't Goto Definition",      how= function()    print_definition_positions()        end },
+        -- {                   key= "gd",    what= "Don't Goto Definition",      how= function()    print_definition_positions()        end },
         {                   key= "vws",   what= 'Vim Workspace Symbol',       how= function()    vim.lsp.buf.workspace_symbol('')    end },
-        {                   key= "vd",    what= 'Vim Diagnostic',             how= function()    vim.diagnostic.open_float()         end },
-        {                   key= "vca",   what= 'Vim Code Action',            how= function()    vim.lsp.buf.code_action()           end },
-        {                   key= "vrr",   what= 'Vim RefeRences',             how= function()    vim.lsp.buf.references()            end },
-        {                   key= "vrn",   what= 'Vim ReName',                 how= function()    vim.lsp.buf.rename()                end },
-        {                   key= "vfm",   what= 'Vim ForMat',                 how= function()    vim.lsp.buf.format()                end },
-        {                   key= "vhl",   what= 'Vim HighLight',              how= function()    fn.toggle_lsp_highlight()           end },
+        {                   key= "id",    what= 'Intelli Diagnostic',             how= function()    vim.diagnostic.open_float()         end },
+        {                   key= "ia",   what= 'Intelli Action',            how= function()    vim.lsp.buf.code_action()           end },
+        {                   key= "irr",   what= 'Intelli RefeRences',             how= function()    vim.lsp.buf.references()            end },
+        {                   key= "irn",   what= 'Intelli ReName',                 how= function()    vim.lsp.buf.rename()                end },
+        {                   key= "if",   what= 'Intelli Format',                 how= function()    vim.lsp.buf.format()                end },
+        {                   key= "ihl",   what= 'Intelli HighLight (toggle)',              how= function()    fn.toggle_lsp_highlight()           end },
     }
 }
 
