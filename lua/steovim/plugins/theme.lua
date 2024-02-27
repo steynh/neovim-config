@@ -38,9 +38,9 @@ return {
                 },
                 plugins = { -- Uncomment the plugins that you use to highlight them
                     -- Available plugins:
-                    -- "dap",
+                    "dap",
                     -- "dashboard",
-                    -- "gitsigns",
+                    "gitsigns",
                     -- "hop",
                     -- "indent-blankline",
                     -- "lspsaga",
@@ -53,8 +53,8 @@ return {
                     -- "nvim-web-devicons",
                     -- "sneak",
                     "telescope",
-                    -- "trouble",
-                    -- "which-key",
+                    "trouble",
+                    "which-key",
                 },
                 disable = {
                     colored_cursor = false, -- Disable the colored cursor
