@@ -12,6 +12,8 @@ vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:2,min:40,sbr"
 vim.opt.expandtab = true
+vim.opt.listchars="tab: |"
+vim.cmd("set invlist")
 
 vim.opt.smartindent = true
 
