@@ -3,36 +3,36 @@ local home = os.getenv('HOME')
 local function config()
     local telescope = require('telescope')
     telescope.load_extension('harpoon')
-	telescope.setup {
-		defaults = {
-			path_display = { "truncate" },
-			file_ignore_patterns = {
-				"node_modules/",
-				"\\.git/"
-			},
-		},
-		pickers = {
-			find_files = {
-				follow = true,
-				hidden = true
-			},
-			live_grep = {
-				follow = true,
-				hidden = true,
-				additional_args = function(opts)
-					return { "--hidden" }
-				end
-			},
+    telescope.setup {
+        defaults = {
+            path_display = { "truncate" },
+            file_ignore_patterns = {
+                "node_modules/",
+                "\\.git/"
+            },
+        },
+        pickers = {
+            find_files = {
+                follow = true,
+                hidden = true
+            },
+            live_grep = {
+                follow = true,
+                hidden = true,
+                additional_args = function(opts)
+                    return { "--hidden" }
+                end
+            },
             -- lsp_incoming_calls = {
             --     theme = "cursor",
             -- },
             -- lsp_references = {
             --     theme = "cursor",
             -- },
-		}
-	}
+        }
+    }
 
-	local builtin = require('telescope.builtin')
+    local builtin = require('telescope.builtin')
     require('steovim.config_helpers').set_keymaps({
         prefix = '<leader>',
         { key='f',   what='Find (Telescope)'                                                                                                                                                      },
@@ -74,12 +74,12 @@ local function config()
 end
 
 return {
-	'nvim-telescope/telescope.nvim',
-	dependencies = {
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
         'nvim-lua/plenary.nvim',
         'ThePrimeagen/harpoon',
         'folke/which-key.nvim',
     },
-	config = config,
+    config = config,
     keys = { '<leader>o', '<leader>f', '<leader>gf' }
 }
