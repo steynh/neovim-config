@@ -33,7 +33,7 @@ vim.opt.cursorline = true
 -- vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "auto:3-4" -- git, mark, diagnostic, extra
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
