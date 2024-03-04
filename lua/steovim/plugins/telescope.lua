@@ -8,7 +8,10 @@ local function config()
             path_display = { "truncate" },
             file_ignore_patterns = {
                 "node_modules/",
-                "\\.git/"
+                "^%.git/",
+                "^(.*/)%.git/",
+                "^%.git$",
+                "^(.*/)%.git$",
             },
         },
         pickers = {
