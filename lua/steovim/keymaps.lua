@@ -17,6 +17,7 @@ local leader_keymap = {
     { mode= {'n', 'v'}, key= 'y',   what= 'Yank to clipboard',               how= '"+y'                                                                      },
     { mode= {'n', 'v'}, key= 'd',   what= 'Delete to clipboard',             how= '"+d'                                                                      },
     {                   key= 'yp',  what= 'Yank file Path to clipboard',     how= ':!echo -n "%" | pbcopy<CR>'                                               },
+    {                   key= 'yf',  what= 'Yank File name to clipboard',     how= ':!basename "%" | tr -d "\\n" | pbcopy<CR>'                                    },
     {                   key= 'yg',  what= 'Yank blob link to clipboard',     how= ':!get-blob-link "%:p" | pbcopy<CR>'                                       },
     {                   key= 'grs', what= 'Git Rebase Squash',               how= ':s/^\\w\\+ /squash /<CR>'                                                 },
     {                   key= 'grf', what= 'Git Rebase Fixup',                how= ':s/^\\w\\+ /fixup /<CR>'                                                  },
