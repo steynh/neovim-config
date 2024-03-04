@@ -12,6 +12,7 @@ local function config()
                 "^(.*/)%.git/",
                 "^%.git$",
                 "^(.*/)%.git$",
+                "%.class$",
             },
         },
         pickers = {
