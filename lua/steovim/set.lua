@@ -38,6 +38,8 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
+vim.opt.shell = "/bin/bash"
+
 -- vim.opt.colorcolumn = "80"
 
 -- don't continue comments when typing `o` or `O` in normal mode
