@@ -44,7 +44,7 @@ return {
                     -- "hop",
                     -- "indent-blankline",
                     -- "lspsaga",
-                    -- "mini",
+                    "mini",
                     -- "neogit",
                     -- "neorg",
                     "nvim-cmp",
