@@ -37,10 +37,10 @@ local leader_keymap = {
 
 local no_prefix_keymap = {
 
-    { mode= {'n', 'v', 'i'}, key= '<C-s>', what= '', how= '<Esc>:w<CR>' },
-    { mode= 'n',             key= 'L',     what= '', how= '$'           },
-    { mode= 'n',             key= 'H',     what= '', how= '^'           },
-
+    { mode= {'n', 'v', 'i'}, key= '<C-s>', what= '',                         how= '<Esc>:w<CR>'            },
+    { mode= 'n',             key= 'L',     what= '',                         how= '$'                      },
+    { mode= 'n',             key= 'H',     what= '',                         how= '^'                      },
+    { mode= {'o', 'x'},      key="iF",     what= 'Inner File (text object)', how= ":<c-u>normal! ggVG<cr>" },
 }
 
 local ts = require('telescope.builtin')
