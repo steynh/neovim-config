@@ -24,6 +24,7 @@ function M.toggle_lsp_highlight()
             augroup END
         endif
     ]])
+    -- NOTE: kickstart.nvim has a lua implementation for this: https://github.com/nvim-lua/kickstart.nvim/blob/f764b7bacd54a59cf51ab0e2c8e1d397ec5ae174/init.lua#L502-L513
 end
 
 function M.substitute_in_block(substitutions, start_pos, end_pos)

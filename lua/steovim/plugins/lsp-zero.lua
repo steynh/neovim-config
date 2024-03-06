@@ -3,6 +3,7 @@ local keymaps = require('steovim.keymaps')
 return {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v2.x',
+    cond = not require('steovim.config').use_new_lsp_and_cmp_config,
     dependencies = {
         -- LSP Support
         { 'neovim/nvim-lspconfig' },

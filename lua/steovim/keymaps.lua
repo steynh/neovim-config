@@ -43,26 +43,32 @@ local no_prefix_keymap = {
 
 }
 
+local ts = require('telescope.builtin')
+
 local lsp_keymaps = {
     {
-        {                   key= "gd",    what= 'desc="Goto Definition"',     how= function()    vim.lsp.buf.definition()            end },
-        {                   key= "gi",    what= 'desc="Goto Implementation"', how= function()    vim.lsp.buf.implementation()        end },
-        {                   key= "K",     what= '',                           how= function()    vim.lsp.buf.hover()                 end },
-        {                   key= "]d",    what= '',                           how= function()    vim.diagnostic.goto_next()          end },
-        {                   key= "[d",    what= '',                           how= function()    vim.diagnostic.goto_prev({})        end },
-        { mode= "i",        key= "<C-h>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
-        { mode= {"n", "i"}, key= "<C-p>", what= '',                           how= function()    vim.lsp.buf.signature_help()        end },
+        {                   key= "gd",    what= 'desc="Goto Definition"',       how= ts.lsp_definitions },
+        {                   key= "gi",    what= 'desc="Goto Implementation"',   how= ts.lsp_implementations },
+
+        {                   key= "K",     what= '',                             how= vim.lsp.buf.hover },
+        {                   key= "]d",    what= '',                             how= vim.diagnostic.goto_next },
+        {                   key= "[d",    what= '',                             how= vim.diagnostic.goto_prev },
+        { mode= "i",        key= "<C-h>", what= '',                             how= vim.lsp.buf.signature_help },
+        { mode= {"n", "i"}, key= "<C-p>", what= '',                             how= vim.lsp.buf.signature_help },
+        {                   key='ff',     what='Find Functions',                how= function() ts.lsp_document_symbols({symbols={"function", "method"}}) end },
+        {                   key='fwf',    what='Find Word in global Functions', how= function() ts.lsp_workspace_symbols({query = vim.fn.expand("<cword>"), symbols={"function", "method"}}) end },
+        {                   key='fi',     what='Find Incoming calls',           how=':Telescope lsp_incoming_calls<CR>' },
+        {                   key='fr',     what='Find References',               how=':Telescope lsp_references<CR>' },
     },
     {
         prefix='<leader>',
-        -- {                   key= "gd",    what= "Don't Goto Definition",      how= function()    print_definition_positions()        end },
-        {                   key= "vws",   what= 'Vim Workspace Symbol',       how= function()    vim.lsp.buf.workspace_symbol('')    end },
-        {                   key= "id",    what= 'Intelli Diagnostic',         how= function()    vim.diagnostic.open_float()         end },
-        {                   key= "ia",    what= 'Intelli Action',             how= function()    vim.lsp.buf.code_action()           end },
-        {                   key= "irr",   what= 'Intelli RefeRences',         how= function()    vim.lsp.buf.references()            end },
-        {                   key= "irn",   what= 'Intelli ReName',             how= function()    vim.lsp.buf.rename()                end },
-        {                   key= "if",    what= 'Intelli Format',             how= function()    vim.lsp.buf.format()                end },
-        {                   key= "ihl",   what= 'Intelli HighLight (toggle)', how= function()    fn.toggle_lsp_highlight()           end },
+        {                   key= "vws",   what= 'Vim Workspace Symbol',         how= function() vim.lsp.buf.workspace_symbol('') end },
+        {                   key= "id",    what= 'Intelli Diagnostic',           how= function() vim.diagnostic.open_float() end },
+        {                   key= "ia",    what= 'Intelli Action',               how= function() vim.lsp.buf.code_action() end },
+        {                   key= "irr",   what= 'Intelli RefeRences',           how= function() vim.lsp.buf.references() end },
+        {                   key= "irn",   what= 'Intelli ReName',               how= function() vim.lsp.buf.rename() end },
+        {                   key= "if",    what= 'Intelli Format',               how= function() vim.lsp.buf.format() end },
+        {                   key= "ih",    what= 'Intelli HighLight (toggle)',   how= function() fn.toggle_lsp_highlight() end },
     }
 }
 
