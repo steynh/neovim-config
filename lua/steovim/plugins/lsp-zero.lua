@@ -86,7 +86,34 @@ return {
             keymaps.set_lsp_keymaps(bufnr)
         end)
 
-        require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+
+        require('lspconfig').lua_ls.setup({
+            -- cmd = {...},
+            -- filetypes { ...},
+            -- capabilities = {},
+            settings = {
+                Lua = {
+                    runtime = { version = 'LuaJIT' },
+                    workspace = {
+                        checkThirdParty = false,
+                        -- Tells lua_ls where to find all the Lua files that you have loaded
+                        -- for your neovim configuration.
+                        library = {
+                            '${3rd}/luv/library',
+                            '/Users/steyn/g/p/dotfiles/modules/nvim/dot-config/nvim/lua',
+                            unpack(vim.fn.glob('/Users/steyn/.local/share/nvim/lazy/*/lua', false, true))
+                        },
+                        -- If lua_ls is really slow on your computer, you can try this instead:
+                        -- library = { vim.env.VIMRUNTIME },
+                    },
+                    completion = {
+                        callSnippet = 'Replace',
+                    },
+                    -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+                    -- diagnostics = { disable = { 'missing-fields' } },
+                },
+            },
+        })
 
         lsp.setup()
 
