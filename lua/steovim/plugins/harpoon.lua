@@ -14,11 +14,11 @@ return {
             vim.keymap.set("n", "<leader>n", require("harpoon.ui").toggle_quick_menu, {desc='Harpoon Nark'})
 
             local harpoon_ui = require('harpoon.ui')
-            vim.keymap.set({"n", "v", "i"}, "<C-h>", function () harpoon_ui.nav_file(1) end, {})
-            vim.keymap.set({"n", "v", "i"}, "<C-j>", function () harpoon_ui.nav_file(2) end, {})
-            vim.keymap.set({"n", "v", "i"}, "<C-k>", function () harpoon_ui.nav_file(3) end, {})
-            vim.keymap.set({"n", "v", "i"}, "<C-l>", function () harpoon_ui.nav_file(4) end, {})
-            vim.keymap.set({"n", "v", "i"}, "<C-n>", function () harpoon_ui.nav_file(5) end, {})
+            vim.keymap.set({"n"}, "<C-h>", function () harpoon_ui.nav_file(1) end, {})
+            vim.keymap.set({"n"}, "<C-j>", function () harpoon_ui.nav_file(2) end, {})
+            vim.keymap.set({"n"}, "<C-k>", function () harpoon_ui.nav_file(3) end, {})
+            vim.keymap.set({"n"}, "<C-l>", function () harpoon_ui.nav_file(4) end, {})
+            vim.keymap.set({"n"}, "<C-n>", function () harpoon_ui.nav_file(5) end, {})
             --vim.keymap.set({"n", "v", "i"}, "<C-m>", function () harpoon_ui.nav_file(5) end, {})
 
             require('harpoon.tabline').setup({})
