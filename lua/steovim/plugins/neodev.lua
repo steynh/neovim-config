@@ -1,4 +1,5 @@
-if require('steovim.config').use_new_lsp_and_cmp_config then
+-- autocomplete for neovim config (some extra auto config of lua LSP)
+if not require('steovim.config').use_new_lsp_and_cmp_config then
     return {
         'folke/neodev.nvim',
         priority = 900,
@@ -7,5 +8,5 @@ if require('steovim.config').use_new_lsp_and_cmp_config then
         end
     }
 else
-    return {}-- autocomplete for neovim config (some extra auto config of lua LSP)
+    return {}
 end

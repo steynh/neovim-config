@@ -1,4 +1,5 @@
-return { -- LSP Configuration & Plugins
+if require('steovim.config').use_new_lsp_and_cmp_config then
+    return { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     cond = require('steovim.config').use_new_lsp_and_cmp_config,
     dependencies = {
@@ -128,6 +129,9 @@ return { -- LSP Configuration & Plugins
                 end,
             },
         }
-		require("neodev").setup()
+        require("neodev").setup()
     end,
 }
+else
+    return {}
+end
