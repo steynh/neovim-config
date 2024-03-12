@@ -62,7 +62,9 @@ if require('steovim.config').use_new_lsp_and_cmp_config then
                 mapping = cmp.mapping.preset.insert {
                     ['<Up>'] = cmp.mapping.select_prev_item(),
                     ['<Down>'] = cmp.mapping.select_next_item(),
-                    ['<C-y>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }), -- choose current selection
+                    ['<C-y>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }, function ()
+                        luasnip.expand_or_jump()
+                    end), -- choose current selection
                     ["<C-Space>"] = cmp.mapping.complete(), -- manually trigger cmp menu
                     ['<C-l>'] = cmp.mapping(function() -- go to previous area of snippet
                         if luasnip.expand_or_locally_jumpable() then
