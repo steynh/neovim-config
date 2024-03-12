@@ -37,10 +37,12 @@ local leader_keymap = {
 
 local no_prefix_keymap = {
 
-    { mode= {'n', 'v', 'i'}, key= '<C-s>', what= '',                         how= '<Esc>:w<CR>'            },
+ -- { mode= {'n', 'v', 'i'}, key= '<C-s>', what= '',                         how= '<Esc>:w<CR>'            },
     { mode= 'n',             key= 'L',     what= '',                         how= '$'                      },
     { mode= 'n',             key= 'H',     what= '',                         how= '^'                      },
     { mode= {'o', 'x'},      key="iF",     what= 'Inner File (text object)', how= ":<c-u>normal! ggVG<cr>" },
+    { mode= {'n', 'i', 'c'}, key="<C-p>",  what= '',                         how= "<Up>"                   },
+    { mode= {'n', 'i', 'c'}, key="<C-n>",  what= '',                         how= "<Down>"                   },
 }
 
 local ts = require('telescope.builtin')
@@ -50,11 +52,10 @@ local lsp_keymaps = {
         {                   key= "gd",    what= 'desc="Goto Definition"',       how= ts.lsp_definitions },
         {                   key= "gi",    what= 'desc="Goto Implementation"',   how= ts.lsp_implementations },
 
-        {                   key= "K",     what= '',                             how= vim.lsp.buf.hover },
-        {                   key= "]d",    what= '',                             how= vim.diagnostic.goto_next },
-        {                   key= "[d",    what= '',                             how= vim.diagnostic.goto_prev },
-        { mode= "i",        key= "<C-h>", what= '',                             how= vim.lsp.buf.signature_help },
-        { mode= {"n", "i"}, key= "<C-p>", what= '',                             how= vim.lsp.buf.signature_help },
+        {                   key= 'K',     what= '',                             how= vim.lsp.buf.hover },
+        {                   key= ']d',    what= '',                             how= vim.diagnostic.goto_next },
+        {                   key= '[d',    what= '',                             how= vim.diagnostic.goto_prev },
+        { mode= {'n', 'i'}, key= '<C-s>', what= '',                             how= require('lsp_signature').toggle_float_win },
         {                   key='ff',     what='Find Functions',                how= function() ts.lsp_document_symbols({symbols={"function", "method"}}) end },
         {                   key='fwf',    what='Find Word in global Functions', how= function() ts.lsp_workspace_symbols({query = vim.fn.expand("<cword>"), symbols={"function", "method"}}) end },
         {                   key='fi',     what='Find Incoming calls',           how=':Telescope lsp_incoming_calls<CR>' },
@@ -62,6 +63,7 @@ local lsp_keymaps = {
     },
     {
         prefix='<leader>',
+        {                   key= 'K',     what= '',                             how= vim.lsp.buf.signature_help },
         {                   key= "vws",   what= 'Vim Workspace Symbol',         how= function() vim.lsp.buf.workspace_symbol('') end },
         {                   key= "id",    what= 'Intelli Diagnostic',           how= function() vim.diagnostic.open_float() end },
         {                   key= "ia",    what= 'Intelli Action',               how= function() vim.lsp.buf.code_action() end },

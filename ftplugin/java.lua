@@ -49,17 +49,26 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
+-- capabilities.textDocument.completion.completionItem.resolveSupport = {
+--   properties = {
+--     'documentation',
+--     'detail',
+--     'additionalTextEdits',
+--   },
+-- }
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities;
-extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
-extendedClientCapabilities.classFileContentsSupport = true;
+-- extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
+-- extendedClientCapabilities.classFileContentsSupport = true;
+-- extendedClientCapabilities.generateToStringPromptSupport = true;
+-- extendedClientCapabilities.hashCodeEqualsPromptSupport = true;
+-- extendedClientCapabilities.advancedExtractRefactoringSupport = false;
+-- extendedClientCapabilities.advancedOrganizeImportsSupport = false;
+-- extendedClientCapabilities.generateConstructorsPromptSupport = false;
+-- extendedClientCapabilities.generateDelegateMethodsPromptSupport = false;
+-- extendedClientCapabilities.moveRefactoringSupport = false;
+-- extendedClientCapabilities.overrideMethodsPromptSupport = false;
+-- extendedClientCapabilities.executeClientCommandSupport = false;
 
 local config = {
     cmd = cmd_java,
@@ -83,8 +92,16 @@ local config = {
                     }
                 }
             },
+            codeGeneration = {
+                useBlocks = true,
+            },
             configuration = {
                 runtimes = {
+                    {
+                        name = "JavaSE-17",
+                        path = "/Library/Java/JavaVirtualMachines/applejdk-17.jdk/Contents/Home/",
+                    },
+
                 }
             }
         },
