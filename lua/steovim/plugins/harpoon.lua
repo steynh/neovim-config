@@ -19,6 +19,8 @@ return {
             vim.keymap.set({"n"}, "<C-k>", function () harpoon_ui.nav_file(3) end, {})
             vim.keymap.set({"n"}, "<C-l>", function () harpoon_ui.nav_file(4) end, {})
             vim.keymap.set({"n"}, "<C-n>", function () harpoon_ui.nav_file(5) end, {})
+            vim.keymap.set({"n"}, "gnf",   function () harpoon_ui.nav_next()  end, {})
+            vim.keymap.set({"n"}, "gpf",   function () harpoon_ui.nav_prev()  end, {})
             --vim.keymap.set({"n", "v", "i"}, "<C-m>", function () harpoon_ui.nav_file(5) end, {})
 
             require('harpoon.tabline').setup({})
