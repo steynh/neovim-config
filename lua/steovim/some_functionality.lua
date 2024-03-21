@@ -74,6 +74,16 @@ vim.api.nvim_create_user_command("CodeNotes", function(opts)
     print(vim.fn.system(cmd))
 end, { range=true, nargs='*' })
 
+vim.api.nvim_create_user_command("RunCodeBlock", function(opts)
+    local file = vim.fn.expand('%')
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+    local cursor_row = cursor_pos[1] - 1
+
+    vim.api.nvim_command('write')
+    require('overseer').open({enter=false, direction='bottom'})
+    vim.cmd('OverseerRunCmd run-md-code-block "' .. file .. '" ' .. cursor_row)
+end, {})
+
 vim.api.nvim_create_user_command("JavaMultiLine", function(opts)
     if (opts.range == 2) then
         print("yo WTF")
