@@ -78,6 +78,7 @@ if require('steovim.config').use_new_lsp_and_cmp_config then
                     end, { 'i', 's' }),
                 },
                 sources = {
+                    { name = 'buffer' },
                     { name = 'luasnip' },
                     { name = 'nvim_lsp' },
                     { name = 'path' },
