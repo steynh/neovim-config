@@ -84,6 +84,14 @@ vim.api.nvim_create_user_command("RunCodeBlock", function(opts)
     vim.cmd('OverseerRunCmd run-md-code-block "' .. file .. '" ' .. cursor_row)
 end, {})
 
+vim.api.nvim_create_user_command("OverseerDisposeAllTasks", function (opts)
+    local tasks = require('overseer').list_tasks()
+    for index, task in ipairs(tasks) do
+        task:dispose()
+    end
+    vim.cmd('OverseerQuickAction dispose')
+end, {})
+
 vim.api.nvim_create_user_command("JavaMultiLine", function(opts)
     if (opts.range == 2) then
         print("yo WTF")

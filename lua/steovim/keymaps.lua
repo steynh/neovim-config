@@ -32,6 +32,9 @@ local leader_keymap = {
 
     {                   key= 'bd',  what= 'Buffer Delete',                        how= ':silent! bp | sp | silent! bn | bd<CR>'                                                                                     },
 
+    {                   key= 'rdd',  what= '[Runner] Dispose current task',       how= ':OverseerQuickAction dispose<CR>'                                                                                           },
+    {                   key= 'rda',  what= '[Runner] Dispose All tasks',          how= ':OverseerDisposeAllTasks<CR>'                                                                                           },
+
     { mode= 'v',        key= 'jmm', what= 'Java to Multiline',                    how= ':JavaMultiLine<CR>'                                                                                                         },
 }
 
